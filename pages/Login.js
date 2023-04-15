@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 const Login = (props) => {
     const [credentials, setCredentials] = useState({email: "", password: ""}) 
-    let history = router();
+    let history = useRouter();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,8 +19,10 @@ const Login = (props) => {
         console.log(json);
         if (json.success){
             // Save the auth token and redirect
-            localStorage.setItem('token', json.authtoken); 
-            history.push("/");
+            localStorage.setItem('token', json.authtoken);
+             
+             window.location.href="/";
+          
 
         }
         else{
@@ -33,12 +35,14 @@ const Login = (props) => {
     }
 
     return (
-        <div>
+        
+        <div className="my-3 mx-3 mt-5">
+            <h1 className="mb-5">Login</h1>
             <form  onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">Email address</label>
                     <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name="email" aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
+
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Password</label>

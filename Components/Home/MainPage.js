@@ -8,7 +8,7 @@ export const MainPage = () => {
   const handleClick = (e) => {
     e.preventDefault();
     addNote(note.title, note.description, note.tags);
-    setNotes({ title: "", description: "", tags: "" });
+    setNotes({ title: " ", description: " ", tags: " " });
   };
 
   const onChange = (e) => {
@@ -18,7 +18,7 @@ export const MainPage = () => {
   return (
     <>
       <div className="container my-3" >
-        <form>
+        <form onSubmit={handleClick}>
           <h1>Add a Note</h1>
           <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">
@@ -30,6 +30,9 @@ export const MainPage = () => {
               id="title"
               name="title"
               onChange={onChange}
+              value={note.title}
+              minLength={5}
+              required
             />
             
           </div>
@@ -43,6 +46,9 @@ export const MainPage = () => {
               id="description"
               name="description"
               onChange={onChange}
+              value={note.description}
+              minLength={5}
+              required
             />
           </div>
           <div className="mb-3">
@@ -55,10 +61,15 @@ export const MainPage = () => {
               id="tags"
               name="tags"
               onChange={onChange}
+              value={note.tags}
+              minLength={5}
+              required
             />
           </div>
           
-          <button type="submit" onClick={handleClick} className="btn btn-primary">
+          <button type="submit" 
+          disabled={note.title.length<5||note.description.length<5||note.tags.length<5} 
+           className="btn btn-primary">
             Save
           </button>
         </form>
