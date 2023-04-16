@@ -1,26 +1,33 @@
 import React,{useRef,useState,useEffect} from 'react'
 import {UploadFile} from '@/Components/fileUpload/UploadFile'
 import Link from 'next/link'
+
  const fileshare = () => {
-const fileInputRef=useRef()
-const [file,setFile]=useState('')
-const [result,setResult]=useState('')
-const onUploadClick=()=>{
-    fileInputRef.current.click()
-}
-useEffect(() => {
-const getFile=async()=>{
-if(file){
-    const data=new FormData();
-    data.append('name',file.name);
-    data.append('file',file);
-    await UploadFile(data);
-    setResult(res.path);
-}
-}
-getFile()
-}, [file])
-console.log(file);
+
+  const [file, setFile] = useState('');
+  const [result, setResult] = useState('');
+
+  const fileInputRef = useRef();
+
+
+
+  useEffect(() => {
+    const getImage = async () => {
+      if (file) {
+        const data = new FormData();
+        data.append("name", file.name);
+        data.append("file", file);
+
+        const response = await UploadFile(data);
+        setResult(response.path);
+      }
+    }
+    getImage();
+  }, [file])
+
+  const onUploadClick = () => {
+    fileInputRef.current.click();
+  }
   return (
     <>
 
@@ -40,9 +47,7 @@ console.log(file);
          onChange={(e)=>{setFile(e.target.files[0])}}
          />
         </div>
-        <div className="mt-2">
-        <Link href={result} target="_blank" className="btn btn-primary btn-ap">Download File</Link>
-</div>
+        
   </div>
 
   </div>
@@ -50,7 +55,25 @@ console.log(file);
 
     </div>
     
-    
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col"className='my-5'>Link</th>
+      <th scope="col">Share It To Your Device</th>
+  
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row" className='w-75'>{result}</th>
+      <td className='w-20'>
+      <button className="btn btn-primary btn-ap mb-3" >Share</button>
+      </td>
+      
+    </tr>
+   
+  </tbody>
+</table>
     </>
   )
 }
