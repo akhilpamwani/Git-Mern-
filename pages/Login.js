@@ -5,9 +5,10 @@ import { useRouter } from 'next/router'
 const Login = (props) => {
     const [credentials, setCredentials] = useState({email: "", password: ""}) 
     let history = useRouter();
+    
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const Login = async (email,password) => {
+      let history=useRouter();
         const response = await fetch("http://localhost:5000/api/auth/login", {
             method: 'POST',
             headers: {
@@ -16,20 +17,21 @@ const Login = (props) => {
             body: JSON.stringify({email: credentials.email, password: credentials.password})
         });
         const json = await response.json()
-        console.log(json);
+       
         if (json.success){
             // Save the auth token and redirect
+            setUser(json.authtoken)
             localStorage.setItem('token', json.authtoken);
              
              window.location.href="/";
           
-
+    
         }
         else{
             alert("Invalid credentials");
         }
     }
-
+    
     const onChange = (e)=>{
         setCredentials({...credentials, [e.target.name]: e.target.value})
     }
